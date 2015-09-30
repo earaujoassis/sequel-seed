@@ -42,7 +42,7 @@ RSpec.configure do |config|
 
   DB.create_table(:spec_models) do
     primary_key :id, :auto_increment => true
-    String   :name
+    String :name
   end
 
   config.before(:each) do

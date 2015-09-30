@@ -1,13 +1,17 @@
+##
 # Extension based upon Sequel::Migration and Sequel::Migrator
 #
 # Adds the Sequel::Seed and Sequel::Seeder classes, which allow
-# the user to easily group entity changes and seed the database
-# to a newer version only (migrations are directional, up or down;
-# seeds are always applied).
+# the user to easily group entity changes and seed/fixture the database
+# to a newer version only (unlike migrations, seeds are not directional).
 #
 # To load the extension:
 #
 #   Sequel.extension :seed
+#
+# It is also important to set the environment:
+#
+#   Sequel::Seed.environment = :development
 
 module Sequel
   class Seed
@@ -31,6 +35,31 @@ module Sequel
     end
   end
 
+  ##
+  # Creates a Seed subclass according to the given +block+.
+  #
+  # The +env_labels+ lists on which environments the seed should be applicable.
+  # If the current environment is not applicable, the seed is ignored. On the
+  # other hand, if it is applicable, it will be listed in Seed.descendants and
+  # subject to application (if it was not applied yet).
+  #
+  # Expected seed call:
+  #
+  #   Sequel.seed(:test) do # seed is only applicable to the test environment
+  #     def run
+  #       Entity.create attribute: value
+  #     end
+  #   end
+  #
+  # Wildcard seed:
+  #
+  #   Sequel.seed do # seed is applicable to every environment, or no environment
+  #     def run
+  #       Entity.create attribute: value
+  #     end
+  #   end
+  #
+
   def self.seed *env_labels, &block
     return if env_labels.length > 0 && !env_labels.include?(Seed.environment)
 
@@ -40,8 +69,20 @@ module Sequel
     seed
   end
 
+  ##
+  # Class resposible for applying all the seeds related to the current environment,
+  # if and only if they were not previously applied.
+  #
+  # To apply the seeds/fixtures:
+  #
+  #   Sequel::Seeder.apply(db, directory)
+  #
+  # +db+ holds the Sequel database connection
+  #
+  # +directory+ the path to the seeds/fixtures files
+
   class Seeder
-    SEED_FILE_PATTERN = /\A(\d+)_.+\.rb\z/i.freeze
+    SEED_FILE_PATTERN = /\A(\d+)_.+\.(rb|json|yml)\z/i.freeze
     SEED_SPLITTER = '_'.freeze
     MINIMUM_TIMESTAMP = 20000101
 
@@ -119,6 +160,18 @@ module Sequel
       filename.split(SEED_SPLITTER, 2).first.to_i
     end
   end
+
+  ##
+  # A Seeder subclass to apply timestamped seeds/fixtures files.
+  # It follows the same syntax & semantics for the Seeder superclass.
+  #
+  # To apply the seeds/fixtures:
+  #
+  #   Sequel::TimestampSeeder.apply(db, directory)
+  #
+  # +db+ holds the Sequel database connection
+  #
+  # +directory+ the path to the seeds/fixtures files
 
   class TimestampSeeder < Seeder
     DEFAULT_SCHEMA_COLUMN = :filename
