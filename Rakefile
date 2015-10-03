@@ -18,3 +18,5 @@ desc 'Run the specs for the sequel-seed'
 task :test do
   sh %{#{FileUtils::RUBY} -S bundle exec rspec}
 end
+
+task default: [:test, :build]
