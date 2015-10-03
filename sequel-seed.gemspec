@@ -12,7 +12,7 @@ SEQUEL_SEED_GEMSPEC = Gem::Specification.new do |s|
   s.email                 = "hello@dearaujoassis.com"
   s.homepage              = "https://github.com/earaujoassis/sequel-seed"
   s.license               = 'MIT'
-  s.required_ruby_version = ">= 1.9.1"
+  s.required_ruby_version = ">= 1.9.3"
   s.files                 = %w(LICENSE CHANGELOG README.md) + Dir["{spec,lib}/**/*.{rb,RB}"]
   s.require_path          = 'lib'
 

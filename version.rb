@@ -1,5 +1,5 @@
 module Sequel
   module Seed
-    VERSION = '0.1.4'
+    VERSION = '0.1.6'
   end
 end
