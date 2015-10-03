@@ -1,5 +1,5 @@
 require 'rake'
-require_relative 'version'
+require File.expand_path(File.dirname(__FILE__) + '/version.rb')
 
 GEM = 'sequel-seed'
 VERSION = Sequel::Seed::VERSION
