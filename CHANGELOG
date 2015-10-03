@@ -1,5 +1,14 @@
 ## Changelog
 
+### 0.2.1
+- API changes to protect Sequel's namespace
+- `Sequel::Seed.environment = :env` is also `Sequel::Seed.setup(:env)`
+- `Sequel::Seed` class is now `Sequel::Seed::Base`; `Sequel::Seed` is now a module;
+thus, there's no way to proxy the old `Sequel::Seed.apply` to the new `Sequel::Seed::Base.apply`
+- `Sequel::Seeder` and `Sequel::TimestampSeeder` are still the same (no changes in interface as well)
+- Improve test coverage to guarantee backward compatibility
+- Minor hotfixes
+
 ### 0.1.4
 - Environment references could be a Symbol or String
 - Improve test coverage

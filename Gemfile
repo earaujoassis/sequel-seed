@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'sequel', '~> 3.34'
+gem 'sequel', '~> 4.0'
 gem 'rake'
 
 group :development, :test do
   gem 'bundler', '>= 1.0.0'
-  gem 'fakefs', require: 'fakefs/safe'
-  gem 'rspec', '~> 2'
+  gem 'rspec'
   gem 'sqlite3'
   gem 'faker'
   gem 'coveralls', require: false
+  gem 'jekyll', require: false
 end

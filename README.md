@@ -22,7 +22,7 @@ end
 Set the environment
 
 ```rb
-Sequel::Seed.environment = :development
+Sequel::Seed.setup :development
 ```
 
 Load the extension

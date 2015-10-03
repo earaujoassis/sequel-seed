@@ -1,9 +1,10 @@
 ##
 # Extension based upon Sequel::Migration and Sequel::Migrator
 #
-# Adds the Sequel::Seed and Sequel::Seeder classes, which allow
-# the user to easily group entity changes and seed/fixture the database
-# to a newer version only (unlike migrations, seeds are not directional).
+# Adds the Sequel::Seed module and the Sequel::Seed::Base and Sequel::Seeder
+# classes, which allow the user to easily group entity changes and seed/fixture
+# the database to a newer version only (unlike migrations, seeds are not
+# directional).
 #
 # To load the extension:
 #
@@ -11,79 +12,109 @@
 #
 # It is also important to set the environment:
 #
-#   Sequel::Seed.environment = :development
+#   Sequel::Seed.setup(:development)
 
 module Sequel
-  class Seed
+  class << self
+    ##
+    # Creates a Seed subclass according to the given +block+.
+    #
+    # The +env_labels+ lists on which environments the seed should be applicable.
+    # If the current environment is not applicable, the seed is ignored. On the
+    # other hand, if it is applicable, it will be listed in Seed.descendants and
+    # subject to application (if it was not applied yet).
+    #
+    # Expected seed call:
+    #
+    #   Sequel.seed(:test) do # seed is only applicable to the test environment
+    #     def run
+    #       Entity.create attribute: value
+    #     end
+    #   end
+    #
+    # Wildcard seed:
+    #
+    #   Sequel.seed do # seed is applicable to every environment, or no environment
+    #     def run
+    #       Entity.create attribute: value
+    #     end
+    #   end
+    #
+
+    def seed *env_labels, &block
+      return if env_labels.length > 0 && !env_labels.map(&:to_sym).include?(Seed.environment)
+
+      seed = Class.new(Seed::Base)
+      seed.class_eval(&block) if block_given?
+      Seed::Base.inherited(seed) unless Seed::Base.descendants.include?(seed)
+      seed
+    end
+  end
+
+  module Seed
     class << self
       attr_reader :environment
+
+      ##
+      # Sets the Sequel::Seed's environment to +env+ over which the Seeds should be applied
+      def setup(env, opts = {})
+        @environment = env.to_sym
+        @options ||= {}
+        @options[:disable_warning] ||= opts[:disable_warning] || false
+      end
+
+      ##
+      # Keep backward compatibility on how to setup the Sequel::Seed environment
+      #
+      # Sets the environment +env+ over which the Seeds should be applied
+      def environment=(env)
+        setup(env)
+      end
+
+      ##
+      # Keep backward compatibility on how to get Sequel::Seed::Base class descendants
+      def descendants
+        Base.descendants
+      end
+
+      ##
+      # Keep backward compatibility on how to append a Sequel::Seed::Base descendant class
+      def inherited(base)
+        Base.inherited(base)
+      end
     end
 
-    def self.apply
-      new.run
+    class Base
+      class << self
+        def apply
+          new.run
+        end
+
+        def descendants
+          @descendants ||= []
+        end
+
+        def inherited(base)
+          descendants << base
+        end
+      end
+
+      def run
+      end
     end
 
-    def self.descendants
-      @descendants ||= []
-    end
-
-    def self.inherited(base)
-      descendants << base
-    end
-
-    def self.environment=(env)
-      @environment = env.to_sym
-    end
-
-    def run
-    end
+    ##
+    # Class resposible for applying all the seeds related to the current environment,
+    # if and only if they were not previously applied.
+    #
+    # To apply the seeds/fixtures:
+    #
+    #   Sequel::Seeder.apply(db, directory)
+    #
+    # +db+ holds the Sequel database connection
+    #
+    # +directory+ the path to the seeds/fixtures files
   end
-
-  ##
-  # Creates a Seed subclass according to the given +block+.
-  #
-  # The +env_labels+ lists on which environments the seed should be applicable.
-  # If the current environment is not applicable, the seed is ignored. On the
-  # other hand, if it is applicable, it will be listed in Seed.descendants and
-  # subject to application (if it was not applied yet).
-  #
-  # Expected seed call:
-  #
-  #   Sequel.seed(:test) do # seed is only applicable to the test environment
-  #     def run
-  #       Entity.create attribute: value
-  #     end
-  #   end
-  #
-  # Wildcard seed:
-  #
-  #   Sequel.seed do # seed is applicable to every environment, or no environment
-  #     def run
-  #       Entity.create attribute: value
-  #     end
-  #   end
-  #
-
-  def self.seed *env_labels, &block
-    return if env_labels.length > 0 && !env_labels.map(&:to_sym).include?(Seed.environment)
-
-    seed = Class.new(Seed)
-    seed.class_eval(&block) if block_given?
-    Seed.inherited(seed) unless Seed.descendants.include?(seed)
-    seed
-  end
-
-  ##
-  # Class resposible for applying all the seeds related to the current environment,
-  # if and only if they were not previously applied.
-  #
-  # To apply the seeds/fixtures:
-  #
-  #   Sequel::Seeder.apply(db, directory)
-  #
-  # +db+ holds the Sequel database connection
-  #
-  # +directory+ the path to the seeds/fixtures files
 
   class Seeder
     SEED_FILE_PATTERN = /\A(\d+)_.+\.(rb|json|yml)\z/i.freeze
@@ -106,7 +137,7 @@ module Sequel
           next unless SEED_FILE_PATTERN.match(file)
           return TimestampSeeder if file.split(SEED_SPLITTER, 2).first.to_i > MINIMUM_TIMESTAMP
         end
-        raise(Error, "seeder not available for files")
+        raise(Error, "seeder not available for files; please checked the directory")
       else
         self
       end
@@ -154,10 +185,10 @@ module Sequel
     end
 
     def remove_seed_classes
-      Seed.descendants.each do |c|
+      Seed::Base.descendants.each do |c|
         Object.send(:remove_const, c.to_s) rescue nil
       end
-      Seed.descendants.clear
+      Seed::Base.descendants.clear
     end
 
     def seed_version_from_file(filename)
@@ -230,14 +261,14 @@ module Sequel
     def get_seed_tuples
       remove_seed_classes
       seeds = []
-      ms = Seed.descendants
+      ms = Seed::Base.descendants
       files.each do |path|
         f = File.basename(path)
         fi = f.downcase
         if !applied_seeds.include?(fi)
           load(path)
           el = [ms.last, f]
-          if ms.last.present? && !seeds.include?(el)
+          if !ms.last.nil? && !seeds.include?(el)
             seeds << [ms.last, f]
           end
         end
