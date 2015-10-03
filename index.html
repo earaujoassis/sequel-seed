@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sequel::Seed</title>
+  <meta name="description" content="A Sequel extension to make seeds/fixtures manageable like migrations">
+
+  <link rel="stylesheet" href="/sequel-seed/components/foundation/css/normalize.css">
+  <link rel="stylesheet" href="/sequel-seed/components/foundation/css/foundation.css">
+  <link rel="stylesheet" href="/sequel-seed/components/octicons/octicons/octicons.css">
+  <link rel="stylesheet" href="/sequel-seed/components/ubuntu-fontface/ubuntu.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600">
+  <link rel="stylesheet" href="/sequel-seed/css/ubuntu-fontface-site.css">
+  <link rel="canonical" href="https://earaujoassis.github.io/sequel-seed/">
+  <link rel="alternate" type="application/rss+xml" title="Sequel::Seed" href="https://earaujoassis.github.io/sequel-seed/feed.xml" />
+</head>
+
+  <body>
+    <header class="site-header">
+  <div class="row">
+    <div class="columns large-12">
+      <h1>Sequel::Seed</h1>
+      <p>A Sequel extension to make seeds/fixtures manageable like migrations</p>
+    </div>
+  </div>
+</header>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="home">
+  <section>
+    <div class="row">
+      <div class="small-6 columns">
+        <h2>Usage</h2>
+      </div>
+      <div class="small-6 columns text-right"></div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <p>Create a seed file (eg. <code class="highlight">/path/to/seeds/20150928071637_initial_seed.rb</code>)</p>
+<pre class="highlight">
+<span class="nc">Sequel</span>.seed(<span class="vi">:development</span>, <span class="vi">:test</span>) <span class="kc">do</span> <span class="c"># Applies only to "development" and "test" environments</span>
+  <span class="kc">def</span> run
+    <span class="nc">User</span>.create \
+      <span class="vi">full_name:</span> <span class="s">"Richard Feynman"</span>,
+      <span class="vi">profession:</span> <span class="s">"Theoretical physicist"</span>,
+      <span class="vi">username:</span> <span class="s">"rfeynman"</span>,
+      <span class="vi">password:</span> <span class="s">"271828"</span>
+  <span class="kc">end</span>
+<span class="kc">end</span>
+
+<span class="nc">Sequel</span>.seed <span class="kc">do</span> <span class="c"># Wildcard Seed; applies to every environment</span>
+  <span class="kc">def</span> run
+    [
+      [<span class="s">'USD'</span>, <span class="s">'United States dollar'</span>],
+      [<span class="s">'BRL'</span>, <span class="s">'Brazilian real'</span>]
+    ].each <span class="kc">do</span> |abbr, name|
+      <span class="nc">Currency</span>.create <span class="vi">abbr:</span> abbr, <span class="vi">name:</span> name
+    <span class="kc">end</span>
+  <span class="kc">end</span>
+<span class="kc">end</span>
+</pre>
+        <p>Set the environment (optional &mdash; if omitted, it will fulfil the globally applicable seeds only)</p>
+<pre class="highlight">
+<span class="nc">Sequel</span>::<span class="nc">Seed</span>.environment = <span class="vi">:development</span>
+</pre>
+        <p>Load the extension</p>
+<pre class="highlight">
+<span class="nf">require</span> <span class="s">'sequel'</span>
+<span class="nf">require</span> <span class="s">'sequel/extensions/seed'</span>
+
+<span class="nc">Sequel</span>.extension <span class="vi">:seed</span>
+</pre>
+        <p>Apply the seeds/fixtures</p>
+<pre class="highlight">
+<span class="nc">DB</span> = Sequel.connect(...)
+<span class="nc">Sequel</span>::<span class="nc">Seeder</span>.apply(<span class="nc">DB</span>, <span class="s">"/path/to/seeds"</span>)
+</pre>
+      </div>
+    </div>
+  </section>
+  <section class="row">
+    <div class="large-12 columns">
+      <h2>Limitations</h2>
+      <p>Only timestamped fixtures/seed files by now</p>
+    </div>
+  </section>
+  <section class="row">
+    <div class="large-12 columns">
+      <h2>What's next?</h2>
+      <p>JSON &amp; YAML files as fixtures/seeds</p>
+    </div>
+  </section>
+  <section class="row">
+    <div class="large-12 columns">
+      <h2>Support</h2>
+      <p>If you need any help (or have found any bug &#x1f41e;), please post it on
+<a href="//github.com/earaujoassis/sequel-seed/issues">/issues</a>. Thank you!</p>
+    </div>
+  </section>
+</div>
+
+      </div>
+    </div>
+    <footer class="site-footer">
+  <div class="row">
+    <div class="small-12 medium-8 columns">
+      <p>Created and maintained by <a href="//dearaujoassis.com/">Ewerton Assis</a> &copy; 2015</p>
+    </div>
+    <div class="small-12 medium-4 columns buttons-container">
+      <a href="//github.com/earaujoassis/sequel-seed" class="button github">
+        <span class="octicon octicon-logo-github"></span>
+      </a>
+      <a href="//rubygems.org/gems/sequel-seed" class="button rubygems">RubyGems</a>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
