@@ -16,7 +16,7 @@
 module Sequel
   class Seed
     class << self
-      attr_accessor :environment
+      attr_reader :environment
     end
 
     def self.apply
@@ -29,6 +29,10 @@ module Sequel
 
     def self.inherited(base)
       descendants << base
+    end
+
+    def self.environment=(env)
+      @environment = env.to_sym
     end
 
     def run
@@ -61,11 +65,11 @@ module Sequel
   #
 
   def self.seed *env_labels, &block
-    return if env_labels.length > 0 && !env_labels.include?(Seed.environment)
+    return if env_labels.length > 0 && !env_labels.map(&:to_sym).include?(Seed.environment)
 
     seed = Class.new(Seed)
     seed.class_eval(&block) if block_given?
-    Seed.inherited(seed) unless Seed.descendants.include? seed
+    Seed.inherited(seed) unless Seed.descendants.include?(seed)
     seed
   end
 
@@ -102,7 +106,7 @@ module Sequel
           next unless SEED_FILE_PATTERN.match(file)
           return TimestampSeeder if file.split(SEED_SPLITTER, 2).first.to_i > MINIMUM_TIMESTAMP
         end
-        raise(Error, 'seeder not available for files')
+        raise(Error, "seeder not available for files")
       else
         self
       end

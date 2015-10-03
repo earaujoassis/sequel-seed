@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.setup(:default, :development)
 
 require 'sequel'
+require 'faker'
 require File.expand_path(File.dirname(__FILE__) + '/../lib/sequel/extensions/seed.rb')
 
 RSpec.configure do |config|

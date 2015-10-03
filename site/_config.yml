@@ -1,0 +1,20 @@
+# Site settings
+title: Sequel::Seed
+email: hello@dearaujoassis.com
+description: A Sequel extension to make seeds/fixtures manageable like migrations
+baseurl: "/sequel-seed"
+url: "https://earaujoassis.github.io"
+creators_website: "http://dearaujoassis.com"
+twitter_username: earaujoassis
+github_username:  earaujoassis
+github_project: sequel-seed
+source: .
+destination: ./_build
+
+# Build settings
+exclude: ['Gemfile', 'Gemfile.lock', 'bower.json', 'README.md']
+keep_files: ['components', '.git']
+markdown: kramdown
+sass:
+  style: :compressed
+  sass_dir: _sass

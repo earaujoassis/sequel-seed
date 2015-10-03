@@ -1,1 +1,10 @@
 ## Changelog
+
+### 0.1.4
+- Environment references could be a Symbol or String
+- Improve test coverage
+- New project website with documentation
+
+### 0.1.2
+- Initial version
+- Seed descriptor only available as Ruby code

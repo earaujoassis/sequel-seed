@@ -7,4 +7,5 @@ group :development, :test do
   gem 'fakefs', require: 'fakefs/safe'
   gem 'rspec', '~> 2'
   gem 'sqlite3'
+  gem 'faker'
 end

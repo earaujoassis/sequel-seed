@@ -1,22 +1,13 @@
-# Sequel::Seed
+# Sequel::Seed [![Gem Version](https://badge.fury.io/rb/sequel-seed.svg)](http://badge.fury.io/rb/sequel-seed)
 
 > A Sequel extension to make seeds/fixtures manageable like migrations
 
 ## Usage
 
-Load the extension
+Create a seed file (eg. `/path/to/seeds/20150928071637_currencies.rb`)
 
 ```rb
-require 'sequel'
-require 'sequel/extensions/seed'
-
-Sequel.extension :seed
-```
-
-Create a seed file (eg. `/path/to/seeds/20150928071637_currencies`)
-
-```rb
-Sequel.seed(:development, :test, :production) do
+Sequel.seed(:development, :test) do # Applies only to "development" and "test" environments
   def run
     [
       ['USD', 'United States dollar'],
@@ -34,6 +25,15 @@ Set the environment
 Sequel::Seed.environment = :development
 ```
 
+Load the extension
+
+```rb
+require 'sequel'
+require 'sequel/extensions/seed'
+
+Sequel.extension :seed
+```
+
 Apply the seeds/fixtures
 
 ```rb
@@ -41,9 +41,20 @@ DB = Sequel.connect(...)
 Sequel::Seeder.apply(DB, "/path/to/seeds")
 ```
 
+For more information, please check the [project website](//github.com/earaujoassis/sequel-seed/).
+
 ## Limitations
 
 Only timestamped seeds files
+
+## What's next?
+
+JSON &amp; YAML files as fixtures/seeds
+
+## Support
+
+If you need any help (or have found any bug &#x1f41e;), please post it on
+[/issues](//github.com/earaujoassis/sequel-seed/issues). Thank you!
 
 ## License
 
