@@ -9,4 +9,5 @@ group :development, :test do
   gem 'rspec', '~> 2'
   gem 'sqlite3'
   gem 'faker'
+  gem 'coveralls', require: false
 end

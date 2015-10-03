@@ -1,5 +1,8 @@
 require 'bundler/setup'
-Bundler.setup(:default, :development)
+Bundler.setup(:default, :development, :test)
+
+require 'coveralls'
+Coveralls.wear!
 
 require 'sequel'
 require 'faker'

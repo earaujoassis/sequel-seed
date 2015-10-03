@@ -1,4 +1,4 @@
-# Sequel::Seed [![Gem Version](https://badge.fury.io/rb/sequel-seed.svg)](http://badge.fury.io/rb/sequel-seed) ![Travis-CI status](https://travis-ci.org/earaujoassis/sequel-seed.svg?branch=master "Travis-CI status")
+# Sequel::Seed [![Gem Version](https://badge.fury.io/rb/sequel-seed.svg)](http://badge.fury.io/rb/sequel-seed) [![Build Status](https://travis-ci.org/earaujoassis/sequel-seed.svg?branch=master)](https://travis-ci.org/earaujoassis/sequel-seed) [![Coverage Status](https://coveralls.io/repos/earaujoassis/sequel-seed/badge.svg?branch=master&service=github)](https://coveralls.io/github/earaujoassis/sequel-seed?branch=master)
 
 > A Sequel extension to make seeds/fixtures manageable like migrations
 
