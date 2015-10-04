@@ -1,0 +1,25 @@
+[
+  {
+    "environment": [ "test", "development" ],
+    "user": [
+      {
+        "full_name": "Richard Feynman",
+        "profession": "Theoretical physicist",
+        "username": "rfeynman",
+        "password": "271828"
+      }
+    ]
+  },
+  {
+    "currency": [
+      {
+        "abbr": "USD",
+        "name": "United States dollar"
+      },
+      {
+        "abbr": "BRL",
+        "name": "Brazilian real"
+      }
+    ]
+  }
+]

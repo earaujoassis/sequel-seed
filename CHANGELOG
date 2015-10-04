@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.3.0
+- Add support for YAML files
+- Minor hotfixes
+
 ### 0.2.1
 - API changes to protect Sequel's namespace
 - `Sequel::Seed.environment = :env` is also `Sequel::Seed.setup(:env)`

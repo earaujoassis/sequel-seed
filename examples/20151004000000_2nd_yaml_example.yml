@@ -1,0 +1,9 @@
+environment: "test"
+model:
+  class: "User"
+  entries:
+    -
+      full_name: "Richard Feynman"
+      profession: "Theoretical physicist"
+      username: "rfeynman"
+      password: "271828"

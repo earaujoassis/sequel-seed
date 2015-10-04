@@ -4,7 +4,7 @@
 
 ## Usage
 
-Create a seed file (eg. `/path/to/seeds/20150928071637_currencies.rb`)
+Create a seed file (eg. `/path/to/seeds/20150928000000_initial_seed.rb`)
 
 ```rb
 Sequel.seed(:development, :test) do # Applies only to "development" and "test" environments
@@ -45,11 +45,12 @@ For more information, please check the [project website](//github.com/earaujoass
 
 ## Limitations
 
-Only timestamped seeds files
+- JSON and YAML files don't work with associations
+- Only timestamped seed/fixture files
 
 ## What's next?
 
-JSON &amp; YAML files as fixtures/seeds
+Work with Model's associations inside JSON &amp; YAML files
 
 ## Support
 

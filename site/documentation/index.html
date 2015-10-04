@@ -1,0 +1,175 @@
+---
+layout: default
+---
+<div class="home">
+  <section>
+    <div class="row">
+      <div class="small-6 columns">
+        <h2>Documentation</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns">
+        <h3>Seed/fixture file</h3>
+        <p>You may create seeds/fixtures using YAML and JSON files &mdash; along Ruby files. Following are some examples of valid, workable and applicable seed/fixture files in both YAML and JSON syntax.
+If you need to work with associations, Ruby Seeds would be a good starting point; YAML and JSON Seeds don't handle Model associations by now.</p>
+        <div class="row">
+          <div class="medium-6 columns">
+<pre class="highlight">
+[
+  {
+    <span class="s">"environment"</span>: [ <span class="s">"test"</span>, <span class="s">"development"</span> ],
+    <span class="s">"user"</span>: [
+      {
+        <span class="s">"full_name"</span>: <span class="s">"Richard Feynman"</span>,
+        <span class="s">"profession"</span>: <span class="s">"Theoretical physicist"</span>,
+        <span class="s">"username"</span>: <span class="s">"rfeynman"</span>,
+        <span class="s">"password"</span>: <span class="s">"271828"</span>
+      }
+    ]
+  },
+  {
+    <span class="s">"currency"</span>: [
+      {
+        <span class="s">"abbr"</span>: <span class="s">"USD"</span>,
+        <span class="s">"name"</span>: <span class="s">"United States dollar"</span>
+      },
+      {
+        <span class="s">"abbr"</span>: <span class="s">"BRL"</span>,
+        <span class="s">"name"</span>: <span class="s">"Brazilian real"</span>
+      }
+    ]
+  }
+]
+</pre>
+          </div>
+          <div class="medium-6 columns">
+<pre class="highlight">
+-
+  <span class="s">environment</span>:
+    - <span class="vi">:test</span>
+    - <span class="s">"development"</span>
+  <span class="s">user</span>:
+    -
+      <span class="s">full_name</span>: <span class="s">"Richard Feynman"</span>
+      <span class="s">profession</span>: <span class="s">"Theoretical physicist"</span>
+      <span class="s">username</span>: <span class="s">"rfeynman"</span>
+      <span class="s">password</span>: <span class="s">"271828"</span>
+-
+  <span class="s">currency</span>:
+    -
+      <span class="s">abbr</span>: <span class="s">'USD'</span>
+      <span class="s">name</span>: <span class="s">'United States dollar'</span>
+    -
+      <span class="s">abbr</span>: <span class="s">'BRL'</span>
+      <span class="s">name</span>: <span class="s">'Brazilian real'</span>
+</pre>
+          </div>
+        </div>
+<p>By default, the Model class will be inferred by the Seed descriptor. If you need to override the default name and point
+to the proper Model class, you can do as following:</p>
+        <div class="row">
+          <div class="medium-6 columns">
+<pre class="highlight">
+{
+  <span class="s">"environment"</span>: <span class="s">"test"</span>,
+  <span class="s">"model"</span>: {
+    <span class="s">"class"</span>: <span class="s">"User"</span>,
+    <span class="s">"entries"</span>: [
+      {
+        <span class="s">"full_name"</span>: <span class="s">"Richard Feynman"</span>,
+        <span class="s">"profession"</span>: <span class="s">"Theoretical physicist"</span>,
+        <span class="s">"username"</span>: <span class="s">"rfeynman"</span>,
+        <span class="s">"password"</span>: <span class="s">"271828"</span>
+      }
+    ]
+  }
+}
+</pre>
+          </div>
+          <div class="medium-6 columns">
+<pre class="highlight">
+<span class="s">environment</span>: <span class="s">"test"</span>
+<span class="s">model</span>:
+  <span class="s">class</span>: <span class="s">"User"</span>
+  <span class="s">entries</span>:
+    -
+      <span class="s">full_name</span>: <span class="s">"Richard Feynman"</span>
+      <span class="s">profession</span>: <span class="s">"Theoretical physicist"</span>
+      <span class="s">username</span>: <span class="s">"rfeynman"</span>
+      <span class="s">password</span>: <span class="s">"271828"</span>
+</pre>
+          </div>
+        </div>
+<p>Wildcard Seeds are also available through YAML &amp; JSON files.</p>
+        <div class="row">
+          <div class="medium-6 columns">
+<pre class="highlight">
+{
+  <span class="s">"user"</span>: {
+    <span class="s">"full_name"</span>: <span class="s">"Richard Feynman"</span>,
+    <span class="s">"profession"</span>: <span class="s">"Theoretical physicist"</span>,
+    <span class="s">"username"</span>: <span class="s">"rfeynman"</span>,
+    <span class="s">"password"</span>: <span class="s">"271828"</span>
+  }
+}
+</pre>
+          </div>
+          <div class="medium-6 columns">
+<pre class="highlight">
+<span class="s">user</span>:
+  <span class="s">full_name</span>: <span class="s">"Richard Feynman"</span>
+  <span class="s">profession</span>: <span class="s">"Theoretical physicist"</span>
+  <span class="s">username</span>: <span class="s">"rfeynman"</span>
+  <span class="s">password</span>: <span class="s">"271828"</span>
+</pre>
+          </div>
+        </div>
+<p>Seeds in Ruby could be defined as following:</p>
+<pre class="highlight">
+<span class="nc">Sequel</span>.seed(<span class="vi">:development</span>, <span class="vi">:test</span>) <span class="kc">do</span> <span class="c"># Applies only to "development" and "test" environments</span>
+  <span class="kc">def</span> run
+    <span class="nc">User</span>.create \
+      <span class="vi">full_name:</span> <span class="s">"Richard Feynman"</span>,
+      <span class="vi">profession:</span> <span class="s">"Theoretical physicist"</span>,
+      <span class="vi">username:</span> <span class="s">"rfeynman"</span>,
+      <span class="vi">password:</span> <span class="s">"271828"</span>
+  <span class="kc">end</span>
+<span class="kc">end</span>
+</pre>
+<pre class="highlight">
+<span class="nc">Sequel</span>.seed <span class="kc">do</span> <span class="c"># Wildcard Seed; applies to every environment</span>
+  <span class="kc">def</span> run
+    [
+      [<span class="s">'USD'</span>, <span class="s">'United States dollar'</span>],
+      [<span class="s">'BRL'</span>, <span class="s">'Brazilian real'</span>]
+    ].each <span class="kc">do</span> |abbr, name|
+      <span class="nc">Currency</span>.create <span class="vi">abbr:</span> abbr, <span class="vi">name:</span> name
+    <span class="kc">end</span>
+  <span class="kc">end</span>
+<span class="kc">end</span>
+</pre>
+        <h3>Applying seeds/fixtures</h3>
+        <p>In order to apply the seed/fixture files, you just need to load <code>sequel</code> and the <code>sequel-seed</code> extension, along with any constant (Class, Module etc.) used in a (Ruby) Seed file.
+The <code>sequel-seed</code> gem assumes that each environment has its own database; thus, each <code>Sequel::Seed</code> environment is associated with a different database instance. Following are the steps to
+apply a collection of seed/fixture files (all placed in one directory):</p>
+        <p><span class="bold">0.</span> Set the environment (optional &mdash; if omitted, it will fulfil wildcard Seeds only)</p>
+<pre class="highlight">
+<span class="nc">Sequel</span>::<span class="nc">Seed</span>.setup(<span class="vi">:development</span>)
+</pre>
+        <p><span class="bold">1.</span> Load the extension</p>
+<pre class="highlight">
+<span class="nf">require</span> <span class="s">'sequel'</span>
+<span class="nf">require</span> <span class="s">'sequel/extensions/seed'</span>
+
+<span class="nc">Sequel</span>.extension <span class="vi">:seed</span>
+</pre>
+        <p><span class="bold">2.</span> Apply the seeds/fixtures</p>
+<pre class="highlight">
+<span class="nc">DB</span> = Sequel.connect(...)
+<span class="nc">Sequel</span>::<span class="nc">Seeder</span>.apply(<span class="nc">DB</span>, <span class="s">"/path/to/seeds"</span>)
+</pre>
+      </div>
+    </div>
+  </section>
+</div>

@@ -16,7 +16,7 @@ module Sequel::Seed
     end
 
     def seed_file_name
-      "#{Time.now.strftime('%Y%m%d%H%M%S')}_testing_#{Faker::Lorem.word}_#{Faker::Lorem.word}.rb"
+      "#{Time.now.strftime('%Y%m%d%H%M%S')}_testing_#{Faker::Lorem.word}_#{Faker::Lorem.word}"
     end
   end
 end
@@ -49,4 +49,5 @@ RSpec.configure do |config|
   end
 end
 
-class SpecModel < Sequel::Model; end
+class SpecModel < Sequel::Model
+end

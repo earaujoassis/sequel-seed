@@ -11,7 +11,7 @@ layout: default
     </div>
     <div class="row">
       <div class="large-12 columns">
-        <p>Create a seed file (eg. <code class="highlight">/path/to/seeds/20150928071637_initial_seed.rb</code>)</p>
+        <p>Create a seed file (eg. <code class="highlight">/path/to/seeds/20150928000000_initial_seed.rb</code>)</p>
 <pre class="highlight">
 <span class="nc">Sequel</span>.seed(<span class="vi">:development</span>, <span class="vi">:test</span>) <span class="kc">do</span> <span class="c"># Applies only to "development" and "test" environments</span>
   <span class="kc">def</span> run
@@ -34,7 +34,7 @@ layout: default
   <span class="kc">end</span>
 <span class="kc">end</span>
 </pre>
-        <p>Set the environment (optional &mdash; if omitted, it will fulfil the globally applicable seeds only)</p>
+        <p>Set the environment (optional &mdash; if omitted, it will fulfil wildcard Seeds only)</p>
 <pre class="highlight">
 <span class="nc">Sequel</span>::<span class="nc">Seed</span>.setup(<span class="vi">:development</span>)
 </pre>
@@ -56,20 +56,24 @@ layout: default
   <section class="row">
     <div class="large-12 columns">
       <h2>Limitations</h2>
-      <p>Only timestamped fixtures/seed files by now</p>
+      <ul>
+        <li>JSON and YAML files don't work with associations</li>
+        <li>Only timestamped fixture/seed files by now</li>
+      </ul>
     </div>
   </section>
   <section class="row">
     <div class="large-12 columns">
       <h2>What's next?</h2>
-      <p>JSON &amp; YAML files as fixtures/seeds</p>
+      <p>Work with Model's associations inside JSON &amp; YAML files</p>
     </div>
   </section>
   <section class="row">
     <div class="large-12 columns">
-      <h2>Support</h2>
+      <h2>Support &amp; Documentation</h2>
       <p>If you need any help (or have found any bug &#x1f41e;), please post it on
-<a href="//github.com/earaujoassis/sequel-seed/issues">/issues</a>. Thank you!</p>
+<a href="//github.com/earaujoassis/sequel-seed/issues">/issues</a>. Check out the <a href="{{ "/documentation" | prepend: site.baseurl }}">documentation</a> if you need help on how
+to create seed/fixture files using Ruby, YAML and JSON code and how to apply them over a database instance.</p>
     </div>
   </section>
 </div>

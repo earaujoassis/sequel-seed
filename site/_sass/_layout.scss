@@ -34,6 +34,10 @@ h1, h2, h3, h4, h5, h6, p {
     }
 }
 
+.bold {
+    font-weight: 500;
+}
+
 pre, code {
     font-family: "Ubuntu Monospace", monospaced;
 }
@@ -64,6 +68,7 @@ pre {
     h1 + p {
         margin-top: -80px;
         margin-bottom: 80px;
+        font-weight: 100;
     }
 }
 
