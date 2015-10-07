@@ -41,7 +41,7 @@ DB = Sequel.connect(...)
 Sequel::Seeder.apply(DB, "/path/to/seeds")
 ```
 
-For more information, please check the [project website](//github.com/earaujoassis/sequel-seed/).
+For more information, please check the [project website](//earaujoassis.github.io/sequel-seed/).
 
 ## Limitations
 
