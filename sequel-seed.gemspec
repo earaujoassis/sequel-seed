@@ -10,7 +10,7 @@ SEQUEL_SEED_GEMSPEC = Gem::Specification.new do |s|
   s.summary               = "A Sequel extension to make seeds/fixtures manageable like migrations"
   s.description           = s.summary
   s.author                = "Ewerton Assis"
-  s.email                 = "hello@dearaujoassis.com"
+  s.email                 = "earaujoassis@gmail.com"
   s.homepage              = "https://github.com/earaujoassis/sequel-seed"
   s.license               = 'MIT'
   s.required_ruby_version = ">= 1.9.3"

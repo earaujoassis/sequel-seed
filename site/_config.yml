@@ -1,10 +1,10 @@
 # Site settings
 title: Sequel::Seed
-email: hello@dearaujoassis.com
+email: earaujoassis@gmail.com
 description: A Sequel extension to make seeds/fixtures manageable like migrations
 baseurl: "/sequel-seed"
 url: "https://earaujoassis.github.io"
-creators_website: "http://dearaujoassis.com"
+creators_website: "http://earaujoassis.com"
 twitter_username: earaujoassis
 github_username:  earaujoassis
 github_project: sequel-seed
