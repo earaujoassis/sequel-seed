@@ -13,7 +13,7 @@ destination: ./_build
 
 # Build settings
 exclude: ['Gemfile', 'Gemfile.lock', 'bower.json', 'README.md']
-keep_files: ['components', '.git']
+keep_files: ['components', '.git', '.gitignore']
 markdown: kramdown
 sass:
   style: :compressed
