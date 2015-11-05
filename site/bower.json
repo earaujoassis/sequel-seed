@@ -1,11 +1,11 @@
 {
-  "name": "ubuntu-fontface/site",
-  "version": "0.1.3",
-  "homepage": "https://github.com/earaujoassis/ubuntu-fontface",
+  "name": "sequel-seed/site",
+  "version": "0.3.1",
+  "homepage": "https://github.com/earaujoassis/sequel-seed",
   "authors": [
     "Ewerton Assis <earaujoassis@gmail.com>"
   ],
-  "description": "Static website for the ubuntu-fontface project",
+  "description": "A Sequel extension to make seeds/fixtures manageable like migrations",
   "keywords": [
     "ubuntu",
     "font",
