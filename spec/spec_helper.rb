@@ -26,7 +26,13 @@ RSpec.configure do |config|
 
   Sequel.extension :seed
 
-  DB = Sequel.sqlite
+  dsn = if RUBY_PLATFORM == 'java'
+    'jdbc:sqlite::memory:'
+  else
+    'sqlite:/'
+  end
+
+  DB = Sequel.connect(dsn)
 
   DB.create_table(:spec_models) do
     primary_key :id, :auto_increment => true
