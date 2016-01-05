@@ -125,7 +125,7 @@ module Sequel
           when String, Symbol
             return if seed_hash['environment'].to_sym != Seed.environment
           when Array
-            return unless seed_hash_environment.map(&:to_sym).include?(Seed.environment)
+            return unless seed_hash['environment'].map(&:to_sym).include?(Seed.environment)
           end
         end
 
