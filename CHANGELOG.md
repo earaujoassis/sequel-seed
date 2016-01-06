@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.3.2
+- Hotfixes & minor updates
+- Olle Jonsson's contributions
+
 ### 0.3.1
 - Add support for YAML & JSON files
 - Minor hotfixes
