@@ -212,7 +212,7 @@ module Sequel
           next unless SEED_FILE_PATTERN.match(file)
           return TimestampSeeder if file.split(SEED_SPLITTER, 2).first.to_i > MINIMUM_TIMESTAMP
         end
-        raise(Error, "seeder not available for files; please checked the directory")
+        raise(Error, "seeder not available for files; please check the configured seed directory '#{directory}'.  Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
       else
         self
       end

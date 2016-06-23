@@ -61,7 +61,7 @@ describe Sequel::Seeder do
     Sequel::Seed.setup environment
 
     expect(Sequel::Seed::Base.descendants.length).to be 0
-    expect {Sequel::Seeder.apply(DB, '/')}.to raise_error("seeder not available for files; please checked the directory")
+    expect {Sequel::Seeder.apply(DB, '/')}.to raise_error("seeder not available for files; please check the configured seed directory '/'.  Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
     expect(SpecModel.dataset.all.length).to be 0
   end
 
