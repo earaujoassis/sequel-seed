@@ -11,4 +11,6 @@ group :development, :test do
   gem 'faker'
   gem 'coveralls', require: false
   gem 'jekyll', require: false, platform: :mri
+  gem 'pg', platform: :mri
+  gem 'jdbc-postgres', platform: :jruby
 end

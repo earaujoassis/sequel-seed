@@ -24,36 +24,22 @@ end
 RSpec.configure do |config|
   include Sequel::Seed::TestHelper
 
-  Sequel.extension :seed
-
-  dsn = if RUBY_PLATFORM == 'java'
-    'jdbc:sqlite::memory:'
-  else
-    'sqlite:/'
-  end
-
-  DB = Sequel.connect(dsn)
-
-  DB.create_table(:spec_models) do
-    primary_key :id, :auto_increment => true
-    String :sentence
-  end
-
   config.before(:suite) do
     FileUtils.mkdir_p(seed_test_dir)
   end
 
   config.before(:each) do
-    SpecModel.dataset.delete
-    Sequel::Seed::Base.descendants.clear
-    # QUICK FIX: Somehow the dataset models are not excluded fast enough
+    # QUICK FIX:
+    # Somehow the dataset models are not excluded fast enough
     sleep(0.750)
+  end
+
+  config.after(:all) do
+    # It clears the `seed_test_dir` folder after each spec
+    FileUtils.rm_rf("#{seed_test_dir}/.", secure: true)
   end
 
   config.after(:suite) do
     FileUtils.remove_dir(seed_test_dir, true)
   end
-end
-
-class SpecModel < Sequel::Model
 end

@@ -212,7 +212,7 @@ module Sequel
           next unless SEED_FILE_PATTERN.match(file)
           return TimestampSeeder if file.split(SEED_SPLITTER, 2).first.to_i > MINIMUM_TIMESTAMP
         end
-        raise(Error, "seeder not available for files; please check the configured seed directory '#{directory}'.  Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
+        raise(Error, "seeder not available for files; please check the configured seed directory '#{directory}'. Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
       else
         self
       end
@@ -302,13 +302,13 @@ module Sequel
     def run
       seed_tuples.each do |s, f|
         t = Time.now
-        db.log_info("Begin applying seed #{f}")
+        db.log_info("Applying seed file `#{f}`")
         checked_transaction(s) do
           s.apply
           fi = f.downcase
           ds.insert(column => fi)
         end
-        db.log_info("Finished applying seed #{f}, took #{sprintf('%0.6f', Time.now - t)} seconds")
+        db.log_info("Seed file `#{f}` applied, it took #{sprintf('%0.6f', Time.now - t)} seconds")
       end
       nil
     end
@@ -319,7 +319,7 @@ module Sequel
       am = ds.select_order_map(column)
       missing_seed_files = am - files.map{|f| File.basename(f).downcase}
       if missing_seed_files.length > 0 && !@allow_missing_seed_files
-        raise(Error, "Applied seed files not in file system: #{missing_seed_files.join(', ')}")
+        raise(Error, "Seed files not in file system: #{missing_seed_files.join(', ')}")
       end
       am
     end
@@ -398,7 +398,7 @@ module Sequel
       if !db.table_exists?(table)
         db.create_table(table){String c, :primary_key => true}
       elsif !ds.columns.include?(c)
-        raise(Error, "Seeder table #{table} does not contain column #{c}")
+        raise(Error, "Seeder table '#{table}' does not contain column '#{c}'")
       end
       ds
     end
