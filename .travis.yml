@@ -1,10 +1,12 @@
 language: ruby
-
 rvm:
-  - ruby-1.9.3
   - ruby-2.0
   - ruby-2.1
   - ruby-2.2
-  - jruby-19mode
+  - jruby-9.0
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database sequel_seed_test;' -U postgres
 
 sudo: false

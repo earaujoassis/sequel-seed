@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.0.0
+- Minimum version for Ruby (MRI) >= 2.0
+- Minimum version for JRuby (Java) >= 9.0
+- Fix some exception messages
+- Improve specs over the `pg_array` extension (issue #9)
+
 ### 0.3.2
 - Hotfixes & minor updates
 - Olle Jonsson's contributions
