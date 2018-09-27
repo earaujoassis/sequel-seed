@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.1.1
+- Minimum version for Ruby (MRI) >= 2.2
+- Improve code quality (Rubocop)
+- Update dependencies
+
 ### 1.0.0
 - Minimum version for Ruby (MRI) >= 2.0
 - Minimum version for JRuby (Java) >= 9.0
