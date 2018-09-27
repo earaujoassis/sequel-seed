@@ -1,5 +1,7 @@
-require 'yaml'
-require 'json'
+# frozen_string_literal: true
+
+require "yaml"
+require "json"
 
 ##
 # Extension based upon Sequel::Migration and Sequel::Migrator
@@ -44,7 +46,7 @@ module Sequel
     #   end
     #
 
-    def seed *env_labels, &block
+    def seed(*env_labels, &block)
       return if env_labels.length > 0 && !env_labels.map(&:to_sym).include?(Seed.environment)
 
       seed = Class.new(Seed::Base)
@@ -62,7 +64,7 @@ module Sequel
       attr_reader :environment
 
       ##
-      # Sets the Sequel::Seed's environment to +env+ over which the Seeds should be applied
+      # Sets the Sequel::Seed"s environment to +env+ over which the Seeds should be applied
       def setup(env, opts = {})
         @environment = env.to_sym
         @options ||= {}
@@ -112,7 +114,7 @@ module Sequel
         when Hash
           apply_seed_hash(seed_descriptor)
         when Array
-          seed_descriptor.each {|seed_hash| apply_seed_hash(seed_hash)}
+          seed_descriptor.each { |seed_hash| apply_seed_hash(seed_hash) }
         end
       end
 
@@ -120,30 +122,30 @@ module Sequel
 
       def apply_seed_hash(seed_hash)
         return unless seed_hash.class <= Hash
-        if seed_hash.has_key?('environment')
-          case seed_hash['environment']
+        if seed_hash.has_key?("environment")
+          case seed_hash["environment"]
           when String, Symbol
-            return if seed_hash['environment'].to_sym != Seed.environment
+            return if seed_hash["environment"].to_sym != Seed.environment
           when Array
-            return unless seed_hash['environment'].map(&:to_sym).include?(Seed.environment)
+            return unless seed_hash["environment"].map(&:to_sym).include?(Seed.environment)
           end
         end
 
         keys = seed_hash.keys
-        keys.delete('environment')
+        keys.delete("environment")
         keys.each do |key|
           key_hash = seed_hash[key]
           entries = nil
-          class_name = if key_hash.has_key?('class')
-            entries = key_hash['entries']
-            key_hash['class']
+          class_name = if key_hash.has_key?("class")
+            entries = key_hash["entries"]
+            key_hash["class"]
           else
             Helpers.camelize(key)
           end
           # It will raise an error if the class name is not defined
           class_const = Kernel.const_get(class_name)
           if entries
-            entries.each {|hash| create_model(class_const, hash)}
+            entries.each { |hash| create_model(class_const, hash) }
           else
             create_model(class_const, key_hash)
           end
@@ -197,7 +199,7 @@ module Sequel
     RUBY_SEED_FILE_PATTERN = /\A(\d+)_.+\.(rb)\z/i.freeze
     YAML_SEED_FILE_PATTERN = /\A(\d+)_.+\.(yml|yaml)\z/i.freeze
     JSON_SEED_FILE_PATTERN = /\A(\d+)_.+\.(json)\z/i.freeze
-    SEED_SPLITTER = '_'.freeze
+    SEED_SPLITTER = "_".freeze
     MINIMUM_TIMESTAMP = 20000101
 
     Error = Seed::Error
@@ -212,7 +214,7 @@ module Sequel
           next unless SEED_FILE_PATTERN.match(file)
           return TimestampSeeder if file.split(SEED_SPLITTER, 2).first.to_i > MINIMUM_TIMESTAMP
         end
-        raise(Error, "seeder not available for files; please check the configured seed directory '#{directory}'. Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
+        raise(Error, "seeder not available for files; please check the configured seed directory \"#{directory}\". Also ensure seed files are in YYYYMMDD_seed_file.rb format.")
       else
         self
       end
@@ -308,7 +310,7 @@ module Sequel
           fi = f.downcase
           ds.insert(column => fi)
         end
-        db.log_info("Seed file `#{f}` applied, it took #{sprintf('%0.6f', Time.now - t)} seconds")
+        db.log_info("Seed file `#{f}` applied, it took #{sprintf("%0.6f", Time.now - t)} seconds")
       end
       nil
     end
@@ -317,9 +319,9 @@ module Sequel
 
     def get_applied_seeds
       am = ds.select_order_map(column)
-      missing_seed_files = am - files.map{|f| File.basename(f).downcase}
+      missing_seed_files = am - files.map { |f| File.basename(f).downcase }
       if missing_seed_files.length > 0 && !@allow_missing_seed_files
-        raise(Error, "Seed files not in file system: #{missing_seed_files.join(', ')}")
+        raise(Error, "Seed files not in file system: #{missing_seed_files.join(", ")}")
       end
       am
     end
@@ -330,7 +332,7 @@ module Sequel
         next unless SEED_FILE_PATTERN.match(file)
         files << File.join(directory, file)
       end
-      files.sort_by{|f| SEED_FILE_PATTERN.match(File.basename(f))[1].to_i}
+      files.sort_by { |f| SEED_FILE_PATTERN.match(File.basename(f))[1].to_i }
     end
 
     def get_seed_tuples
@@ -396,9 +398,9 @@ module Sequel
       c = column
       ds = db.from(table)
       if !db.table_exists?(table)
-        db.create_table(table){String c, :primary_key => true}
+        db.create_table(table) { String c, primary_key: true }
       elsif !ds.columns.include?(c)
-        raise(Error, "Seeder table '#{table}' does not contain column '#{c}'")
+        raise(Error, "Seeder table \"#{table}\" does not contain column \"#{c}\"")
       end
       ds
     end
