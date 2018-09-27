@@ -1,22 +1,24 @@
-require 'bundler/setup'
+# frozen_string_literal: true
+
+require "bundler/setup"
 Bundler.setup(:default, :development, :test)
 
-require 'coveralls'
+require "coveralls"
 Coveralls.wear!
 
-require 'sequel'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/sequel/extensions/seed.rb')
+require "sequel"
+require File.expand_path(File.dirname(__FILE__) + "/../lib/sequel/extensions/seed.rb")
 
-require 'faker'
+require "faker"
 
 module Sequel::Seed
   module TestHelper
     def seed_test_dir
-      @test_dir ||= ENV['TEST_PATH'] || './.testing'
+      @test_dir ||= ENV["TEST_PATH"] || "./.testing"
     end
 
     def seed_file_name
-      "#{Time.now.strftime('%Y%m%d%H%M%S')}_testing_#{Faker::Lorem.word}_#{Faker::Lorem.word}"
+      "#{Time.now.strftime("%Y%m%d%H%M%S")}_testing_#{Faker::Lorem.word}_#{Faker::Lorem.word}"
     end
   end
 end
