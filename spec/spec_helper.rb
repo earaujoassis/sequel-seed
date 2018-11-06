@@ -3,8 +3,11 @@
 require "bundler/setup"
 Bundler.setup(:default, :development, :test)
 
-require "coveralls"
-Coveralls.wear!
+require "simplecov"
+SimpleCov.start
+
+require "codecov"
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 require "sequel"
 require File.expand_path(File.dirname(__FILE__) + "/../lib/sequel/extensions/seed.rb")

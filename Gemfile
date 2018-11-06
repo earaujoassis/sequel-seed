@@ -7,7 +7,7 @@ gem "sequel", "~> 4.0"
 
 group :development, :test do
   gem "bundler", ">= 1.0.0"
-  gem "coveralls", require: false
+  gem "codecov", require: false
   gem "faker"
   gem "jdbc-postgres", platform: :jruby
   gem "jdbc-sqlite3", platform: :jruby
