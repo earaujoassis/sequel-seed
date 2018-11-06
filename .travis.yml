@@ -5,13 +5,9 @@ rvm:
   - ruby-2.4
   - ruby-2.5
   - jruby-9.0
-env:
-  - CODECOV_TOKEN="13f66fc7-18c8-49c5-b6a1-d1f58cdbdd58"
 services:
   - postgresql
 before_script:
   - psql -c 'create database sequel_seed_test;' -U postgres
 script:
   - bundle exec rubocop
-
-sudo: false
