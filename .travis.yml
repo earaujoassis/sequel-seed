@@ -4,7 +4,7 @@ rvm:
   - ruby-2.3
   - ruby-2.4
   - ruby-2.5
-  - jruby-9.0
+  - jruby-9.2
 services:
   - postgresql
 before_script:
