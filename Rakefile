@@ -16,6 +16,11 @@ task release: :build do
   sh %{#{FileUtils::RUBY} -S gem push ./#{GEM}-#{VERSION}.gem}
 end
 
+desc "Run the Rubocop code analyzer for the sequel-seed"
+task :codeanalyzer do
+  sh %{#{FileUtils::RUBY} -S bundle exec rubocop}
+end
+
 desc "Run the specs for the sequel-seed"
 task :test do
   sh %{#{FileUtils::RUBY} -S bundle exec rspec}
@@ -34,4 +39,4 @@ namespace :db do
 end
 
 task localtest: ["db:create", :test, "db:destroy"]
-task default: [:test, :build]
+task default: [:codeanalyzer, :build, :test]
