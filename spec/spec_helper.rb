@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-Bundler.setup(:default, :development, :test)
+Bundler.setup(:default, :test)
 
 require "simplecov"
 SimpleCov.start
@@ -30,6 +30,7 @@ RSpec.configure do |config|
   include Sequel::Seed::TestHelper
 
   config.before(:suite) do
+    puts "Sequel.version => #{Sequel.version}"
     FileUtils.mkdir_p(seed_test_dir)
   end
 

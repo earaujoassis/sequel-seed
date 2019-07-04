@@ -104,9 +104,9 @@ describe Sequel::Seeder do
       primary_key :id, auto_increment: true
       String :sentence
     end
-    class SpecModel < Sequel::Model; end
-    SpecModel.db = @db
-    Sequel::Model.db = @db
+    class SpecModel < Sequel::Model(@db); end
+    SpecModel.dataset = @db[:spec_models]
+    #Sequel::Model.db = @db
   end
 
   after(:each) do

@@ -29,9 +29,9 @@ describe Sequel::Seeder do
       column :selectors, "text[]"
       String :sentence
     end
-    class ArraySpecModel < Sequel::Model; end
-    ArraySpecModel.db = @db
-    Sequel::Model.db = @db
+    class ArraySpecModel < Sequel::Model(@db); end
+    ArraySpecModel.dataset = @db[:array_spec_models]
+    #Sequel::Model.db = @db
   end
 
   after(:each) do
