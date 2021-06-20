@@ -27,7 +27,7 @@
 ### 0.3.1
 
 - Add support for YAML & JSON files
- - Minor hotfixes
+- Minor hotfixes
 
 ### 0.2.1
 
