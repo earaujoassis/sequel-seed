@@ -39,4 +39,4 @@ namespace :db do
 end
 
 task localtest: ["db:create", :codeanalyzer, :test, "db:destroy"]
-task default: [:build, :test]
+task default: [:codeanalyzer, :build, :test]
