@@ -1,14 +1,13 @@
 language: ruby
 rvm:
-  - ruby-2.1.10
-  - ruby-2.2.10
-  - ruby-2.3.8
-  - ruby-2.4.6
-  - ruby-2.5.5
-  - ruby-2.6.3
-  - jruby-9.1.9.0
+  - ruby-2.4.10
+  - ruby-2.5.9
+  - ruby-2.6.7
+  - ruby-2.7.3
+  - jruby-9.2.19.0
 services:
   - postgresql
+bundler_args: --without development
 before_install:
   - rm -f Gemfile.lock
 before_script:

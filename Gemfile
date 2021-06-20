@@ -7,8 +7,6 @@ gem "sequel", ">= 4.49.0"
 
 group :development do
   gem "jekyll", require: false, platform: :mri
-  gem "rubocop", require: false
-  gem "rubocop-github", require: false
 end
 
 group :development, :test do
@@ -18,5 +16,7 @@ group :development, :test do
   gem "jdbc-sqlite3", platform: :jruby
   gem "pg", platform: :mri
   gem "rspec"
+  gem "rubocop", require: false
+  gem "rubocop-github", require: false
   gem "sqlite3", platform: :mri
 end
